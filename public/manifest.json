@@ -1,0 +1,17 @@
+{
+  "theme_color": "#264955",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Data Validator",
+  "short_name": "DataValidator",
+  "description": "data validator for partner",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x66",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,8 +1,34 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { NextPage } from 'next';
+import Router from 'next/router';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+import Preloader from '@components/core/preloader';
 
-export default MyApp
+import LoadingContextProvider from '@contexts/loading';
+import { CustomAppProps } from '@models/utils';
+
+import { wrapper } from '@redux/stores/store';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import '@styles/globals.scss';
+
+// Binding events
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
+
+export type NextApplicationPage<P = any, IP = P> = NextPage<P, IP> & {
+  requireAuth?: boolean;
+};
+
+const MyApp = ({ Component, pageProps }: CustomAppProps) => {
+  return (
+    <>
+      <LoadingContextProvider>
+        <Preloader />
+        <Component {...pageProps} />
+      </LoadingContextProvider>
+    </>
+  );
+};
+
+export default wrapper.withRedux(MyApp);
