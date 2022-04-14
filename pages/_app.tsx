@@ -9,7 +9,7 @@ import { CustomAppProps } from '@models/utils';
 import { wrapper } from '@redux/stores/store';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import '@styles/globals.scss';
+import '@styles/globals.css';
 
 // Binding events
 Router.events.on('routeChangeStart', () => NProgress.start());

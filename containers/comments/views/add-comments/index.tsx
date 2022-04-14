@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { LoadingContext } from '@contexts/loading';
-import { createUserAction, getUsersDetailAction } from '@redux/actions/users';
-import { IUsers } from '@models/users.model';
+import { createCommentAction, getCommentsDetailAction } from '@redux/actions/comments';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -16,22 +14,22 @@ const validationSchema = yup.object({
   body: yup.string().required('Body is required')
 });
 
-const addUserView = () => {
+const addCommentView = () => {
   const formik = useFormik({
     initialValues: {
-      userId: 1,
+      commentId: 1,
       title: '',
       body: ''
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
-      dispatch(createUserAction(values));
+      dispatch(createCommentAction(values));
       setLoading(true);
       setIsSubmit(true);
     }
   });
-  const usersState = useSelector((state: any) => state.users);
+  const commentsState = useSelector((state: any) => state.comments);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const router = useRouter();
@@ -39,17 +37,17 @@ const addUserView = () => {
   const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    if (isSubmit && usersState.isSuccess) {
+    if (isSubmit && commentsState.isSuccess) {
       setLoading(false);
       setIsSubmit(false);
-      router.push('/users');
+      router.push('/comments');
     }
-  }, [isSubmit, usersState.isSuccess, usersState.isError]);
+  }, [isSubmit, commentsState.isSuccess, commentsState.isError]);
 
   return (
     <div className="w-full h-full p-[20px]">
       <div className="mb-[20px]">
-        <h1 className="h1 font-bold">Add New Posts</h1>
+        <h1 className="h1 font-bold">Add New Comments</h1>
       </div>
 
       <div>
@@ -79,4 +77,4 @@ const addUserView = () => {
   );
 };
 
-export default addUserView;
+export default addCommentView;

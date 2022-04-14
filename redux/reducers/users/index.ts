@@ -25,7 +25,7 @@ const initialState = {
   error: null
 };
 
-const posts = (state = initialState, action: any) => {
+const users = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_USERS_ACTION:
       return {
@@ -138,7 +138,7 @@ const posts = (state = initialState, action: any) => {
     case DELETE_USER_SUCCESSED_ACTION:
       return {
         ...state,
-        post: action.payload,
+        user: action.payload,
         isLoading: false,
         isSuccess: true,
         isError: false
@@ -157,4 +157,4 @@ const posts = (state = initialState, action: any) => {
   }
 };
 
-export default posts;
+export default users;

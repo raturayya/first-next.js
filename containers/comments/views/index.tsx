@@ -3,31 +3,30 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getUsersDetailAction } from '@redux/actions/users';
-import { IUsers } from '@models/users.model';
+import { getCommentsAction } from '@redux/actions/comments';
 
-const usersView = () => {
-  const usersState = useSelector((state: any) => state.users);
+const commentsView = () => {
+  const commentsState = useSelector((state: any) => state.comments);
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsersDetailAction());
+    dispatch(getCommentsAction());
   }, []);
 
-  const renderContent = (Users: IUsers[]) => {
-    if (usersState.isLoading) return <p>Loading ...</p>;
+  const renderContent = (comments: Comment[]) => {
+    if (commentsState.isLoading) return <p>Loading ...</p>;
 
     return (
       <div>
         <div className="space-y-4">
-          {Users.map((Users: IUsers, i: number) => (
+          {comments.map((Comments: IComments, i: number) => (
             <React.Fragment key={i}>
-              <Link href={'/users/edit/' + Users.id} passHref>
+              <Link href={'/comments/edit/' + Comments.id} passHref>
                 <div className="border border-solid border-gray-100 rounded-lg shadow-base p-[20px] cursor-pointer hover:bg-gray-50 leading-[24px]">
-                  <p className="font-semibold capitalize">{Users.title}</p>
-                  <p className="text-[12px] text-gray-400">{Users.body}</p>
+                  <p className="font-semibold capitalize">{Comments.title}</p>
+                  <p className="text-[12px] text-gray-400">{Comments.body}</p>
                 </div>
               </Link>
             </React.Fragment>
@@ -40,15 +39,15 @@ const usersView = () => {
   return (
     <div className="p-[20px]">
       <div className="mb-[40px]">
-        <div className="text-[28px] font-bold">Users</div>
+        <div className="text-[28px] font-bold">Comments</div>
         <Link href="/posts/add">
-          <a className="text-blue-400">Add New Users</a>
+          <a className="text-blue-400">Add New Comments</a>
         </Link>
       </div>
 
-      {renderContent(usersState.users)}
+      {renderContent(commentsState.comments)}
     </div>
   );
 };
 
-export default usersView;
+export default commentsView;

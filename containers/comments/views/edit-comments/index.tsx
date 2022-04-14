@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { LoadingContext } from '@contexts/loading';
-import { getUserDetailAction, updateUserAction } from '@redux/actions/users';
-import { IUsers } from '@models/users.model';
+import { getCommentsDetailAction, updateCommentAction } from '@redux/actions/comments';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -16,23 +14,23 @@ const validationSchema = yup.object({
   body: yup.string().required('Body is required')
 });
 
-const editUserView = (props: any) => {
-  const { userId } = props;
-  const usersState = useSelector((state: any) => state.users);
+const editCommentView = (props: any) => {
+  const { commentId } = props;
+  const commentsState = useSelector((state: any) => state.comments);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
-      id: userId,
-      userId: 1,
-      title: usersState.user?.title,
-      body: usersState.user?.body
+      id: commentId,
+      commentId: 1,
+      title: commentsState.user?.title,
+      body: commentsState.user?.body
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
-      dispatch(updateUserAction(userId, values));
+      dispatch(updateCommentAction(commentId, values));
       setLoading(true);
       setIsSubmit(true);
     }
@@ -43,19 +41,19 @@ const editUserView = (props: any) => {
   const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
-    dispatch(getUserDetailAction(userId));
+    dispatch(getCommentsDetailAction(commentId));
   }, []);
 
   useEffect(() => {
-    if (isSubmit && usersState.isSuccess) {
+    if (isSubmit && commentsState.isSuccess) {
       setLoading(false);
       setIsSubmit(false);
-      router.push('/users');
+      router.push('/comments');
     }
-  }, [isSubmit, usersState.isSuccess, usersState.isError]);
+  }, [isSubmit, commentsState.isSuccess, commentsState.isError]);
 
   const renderContent = () => {
-    if (usersState.isLoading) return <p>Loading ...</p>;
+    if (commentsState.isLoading) return <p>Loading ...</p>;
 
     return (
       <form className="flex flex-col space-y-8 max-w-[400px]" onSubmit={formik.handleSubmit}>
@@ -85,7 +83,7 @@ const editUserView = (props: any) => {
   return (
     <div className="w-full h-full p-[20px]">
       <div className="mb-[20px]">
-        <h1 className="h1 font-bold">Update post with title {usersState.post?.title}</h1>
+        <h1 className="h1 font-bold">Update post with title {commentsState.post?.title}</h1>
       </div>
 
       <div>{renderContent()}</div>
@@ -93,4 +91,4 @@ const editUserView = (props: any) => {
   );
 };
 
-export default editUserView;
+export default editCommentView;

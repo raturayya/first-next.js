@@ -1,4 +1,4 @@
-import postsView from '@containers/users/views';
+import usersView from '@containers/users/views';
 
 export const getServerSideProps = async () => {
   return {
@@ -6,4 +6,4 @@ export const getServerSideProps = async () => {
   };
 };
 
-export default postsView;
+export default usersView;

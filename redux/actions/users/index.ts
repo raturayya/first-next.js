@@ -39,7 +39,7 @@ export const UsersAction = () => {
   };
 };
 
-export const getUserDetailAction = (userId: number) => {
+export const getUsersDetailAction = (userId: number) => {
   return async (dispatch: any) => {
     dispatch({ type: GET_USER_ACTION });
 
@@ -60,7 +60,7 @@ export const getUserDetailAction = (userId: number) => {
   };
 };
 
-export const createPostAction = (user: ICreateUsers) => {
+export const createUserAction = (user: ICreateUsers) => {
   return async (dispatch: any) => {
     dispatch({ type: CREATE_USER_ACTION });
 
